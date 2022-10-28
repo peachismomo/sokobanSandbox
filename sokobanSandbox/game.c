@@ -1,11 +1,16 @@
 #include "cprocessing.h"
 #include "structs.h"
+#include "customer.h"
+#include "level.h"
+#include "movement.h"
 #include "utils.h"
 #include "defines.h"
+#include "settings.h"
 
 Cell grid[SOKOBAN_GRID_ROWS][SOKOBAN_GRID_COLS];
-float elapsedLock;
+float cellSize, cellAlign, elapsedLock;
 int totalObjs;
+Config config;
 
 void game_init(void) {
 	/*Create empty grid*/
@@ -51,13 +56,19 @@ void game_init(void) {
 
 
 	/*Settings*/
-	CP_System_SetWindowSize(500, 500);
+	// already declared in splash_screen. used for main.c -> basegame.c
+	CP_System_SetWindowSize(CP_System_GetDisplayWidth() >> 1, CP_System_GetDisplayHeight() >> 1);
 	CP_Settings_RectMode(CP_POSITION_CORNER);
 	CP_Settings_StrokeWeight(0.5f);
+
+	/*Config*/
+	config = readFile();
 
 	/*Initializations*/
 	totalObjs = 2;
 	elapsedLock = 0;
+	cellSize = (float)CP_System_GetWindowHeight() * 1 / (float)SOKOBAN_GRID_ROWS;
+	cellAlign = cellSize * 0.3f * SOKOBAN_GRID_ROWS; // 0.3f roughly aligns in the middle
 }
 
 void game_update(void) {
@@ -122,8 +133,8 @@ void game_update(void) {
 		for (int col = 0; col < SOKOBAN_GRID_COLS; col++) {
 			Cell currCell = grid[row][col];
 
-			float cellX = (float)SOKOBAN_GRID_WIDTH * col;
-			float cellY = (float)SOKOBAN_GRID_HEIGHT * row;
+			float cellX = cellSize * col + cellAlign;
+			float cellY = cellSize * row;
 
 			if (currCell.boarder || currCell.box || currCell.key || currCell.player || currCell.customer.isCustomer) {
 				if (currCell.boarder)
@@ -144,7 +155,7 @@ void game_update(void) {
 				else if (currCell.customer.isCustomer)
 					CP_Settings_Fill(BROWN);
 
-				CP_Graphics_DrawRect(cellX, cellY, SOKOBAN_GRID_WIDTH, SOKOBAN_GRID_HEIGHT);
+				CP_Graphics_DrawRect(cellX, cellY, cellSize, cellSize);
 			}
 		}
 	}

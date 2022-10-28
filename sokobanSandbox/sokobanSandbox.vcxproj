@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -11,14 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="customer.h" />
     <ClInclude Include="defines.h" />
+    <ClInclude Include="level.h" />
+    <ClInclude Include="movement.h" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="customer.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="level.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="movement.c" />
+    <ClCompile Include="settings.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -72,7 +80,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
